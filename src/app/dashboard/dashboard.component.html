@@ -1,0 +1,98 @@
+<div class="container mt-4">
+    <h2 class="mb-4">Product Inventory Dashboard</h2>
+
+    <!-- Add New Category Button -->
+    <div class="mb-3">
+        <button class="btn btn-sm btn-success" (click)="showAddCategoryForm()">Add New Category</button>
+    </div>
+
+    <!-- Add New Category Form -->
+    <div *ngIf="isAddCategoryFormVisible" class="mt-3 mb-5">
+        <div class="form-group w-25">
+            <label for="categoryName">Category Name</label>
+            <input [(ngModel)]="newCategory.name" class="form-control" id="categoryName"
+                placeholder="Enter category name" />
+        </div>
+        <div class="mt-3 d-flex justify-content-between w-25">
+            <button class="btn btn-sm btn-primary" (click)="addCategory()">Add Category</button>
+            <button class="btn btn-sm btn-secondary" (click)="cancelAddCategory()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Loop through product categories -->
+    <div *ngFor="let category of productCategories">
+        <div class="d-flex justify-content-between mb-2">
+            <h4 class="mt-4">{{ category.name }}</h4>
+            <button class="btn btn-sm btn-success add-btn mt-3" (click)="showAddProductForm(category.id)">Add New
+                Product</button>
+        </div>
+
+        <!-- Add New Product Form for selected category -->
+        <div *ngIf="selectedCategoryId === category.id" class="mt-3 mb-5">
+            <div class="form-group w-25">
+                <label for="productName">Product Name</label>
+                <input [(ngModel)]="newProduct.name" class="form-control" id="productName"
+                    placeholder="Enter product name" />
+            </div>
+            <div class="form-group w-25">
+                <label for="productStock">Stock</label>
+                <input [(ngModel)]="newProduct.stock" class="form-control" id="productStock" type="number"
+                    placeholder="Enter stock quantity" />
+            </div>
+            <div class="form-group w-25">
+                <label for="productMinQty">Minimum Quantity</label>
+                <input [(ngModel)]="newProduct.minQty" class="form-control" id="productMinQty" type="number"
+                    placeholder="Enter minimum quantity" />
+            </div>
+            <div class="mt-3 d-flex justify-content-between w-25">
+                <button class="btn btn-sm btn-primary" (click)="addProduct()">Add Product</button>
+                <button class="btn btn-sm btn-secondary" (click)="cancelAddProduct()">Cancel</button>
+            </div>
+        </div>
+
+        <!-- Product Table -->
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Product Name</th>
+                    <th>Category</th>
+                    <th>Current Stock</th>
+                    <th>Minimum Quantity</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of category.products"
+                    [ngClass]="{'table-danger': product.stock <= product.minQty}">
+                    <!-- Edit Mode for Product -->
+                    <ng-container *ngIf="selectedProductId === product.id; else viewMode">
+                        <td><input [(ngModel)]="editForm.name" class="form-control" /></td>
+                        <td>{{ category.name }}</td>
+                        <td><input [(ngModel)]="editForm.stock" type="number" class="form-control" /></td>
+                        <td><input [(ngModel)]="editForm.minQty" type="number" class="form-control" /></td>
+                        <td>
+                            <div class="d-flex justify-content-between">
+                                <button class="btn btn-sm btn-success" (click)="saveProduct(editForm)">Save</button>
+                                <button class="btn btn-sm btn-secondary" (click)="cancelEdit()">Cancel</button>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- View Mode for Product -->
+                    <ng-template #viewMode>
+                        <td>{{ product.name }}</td>
+                        <td>{{ category.name }}</td>
+                        <td>{{ product.stock }}</td>
+                        <td>{{ product.minQty }}</td>
+                        <td>
+                            <div class="d-flex justify-content-between">
+                                <button class="btn btn-sm btn-primary" (click)="editProduct(product)">Edit</button>
+                                <button class="btn btn-sm btn-danger" (click)="deleteProduct(product)">Delete</button>
+                            </div>
+                        </td>
+                    </ng-template>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

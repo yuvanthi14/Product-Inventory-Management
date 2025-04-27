@@ -1,0 +1,20 @@
+{
+    "productCategories": [
+      {
+        "id": 1,
+        "name": "Electronics",
+        "products": [
+          { "id": 1, "name": "Smartphone", "stock": 5, "minQty": 10 },
+          { "id": 2, "name": "Laptop", "stock": 15, "minQty": 10 }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Furniture",
+        "products": [
+          { "id": 3, "name": "Chair", "stock": 8, "minQty": 5 },
+          { "id": 4, "name": "Table", "stock": 2, "minQty": 4 }
+        ]
+      }
+    ]
+}  

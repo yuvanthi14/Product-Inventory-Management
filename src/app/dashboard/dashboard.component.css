@@ -1,0 +1,18 @@
+.table-danger {
+    background-color: #f8d7da !important;
+  }
+  table{
+    th{
+        width: 200px;
+    }
+    td{
+        width: 200px;
+        .edit-btn{
+            border: 1px solid grey;
+        }
+    }
+  }
+
+  .add-btn{
+    height: 40px;
+  }
